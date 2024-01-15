@@ -14,6 +14,7 @@ import MyProfile from "./components/core/Dashboard/MyProfile";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Settings from "./components/core/Dashboard/Settings";
+import Error from "./pages/Error";
 
 const App = () => {
     return (
@@ -71,6 +72,7 @@ const App = () => {
     the <Dashboard /> component will be rendered. */}
             <Route path="/dashboard/my-profile" element={<MyProfile />} />
             <Route path="/dashboard/settings" element={<Settings />} />
+            <Route path="/dashboard/enrolled-courses" element={<Error />} />
           </Route>
 
         </Routes>
