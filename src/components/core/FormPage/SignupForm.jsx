@@ -61,7 +61,7 @@ const SignupForm = () => {
     dispatch(setSignupData(signupData));
 
     // send otp to use for verification
-    dispatch(sendOtp(formData.email, navigate));
+    dispatch(sendOtp(signupData.email, navigate));
   };
 
   // data to pass to Tab component

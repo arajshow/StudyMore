@@ -46,7 +46,8 @@ const VerifyEmail = () => {
 
   return (
     <div
-      className="relative mx-auto max-w-maxContent my-[20vh] flex flex-col w-3/12 lg:items-center justify-center
+      className="relative mx-auto max-w-maxContent my-[20vh] flex flex-col w-3/12 
+      items-center justify-center
     text-white  text-left "
     >
       {loading ? (

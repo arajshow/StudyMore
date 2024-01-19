@@ -14,9 +14,11 @@ exports.sendOTP = async (req, res) => {
     try{
 
         const {email} = req.body;
+        
 
         // check user is present in db or not
         const checkUserExist = await User.findOne({email});
+        
 
         // return if user already exist
         if(checkUserExist){
