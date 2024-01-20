@@ -11,6 +11,7 @@ const {
     CREATE_SUBSECTION_API,
 
     // all update apis of course route
+    EDIT_COURSE_API,
     UPDATE_SECTION_API,
     UPDATE_SUBSECTION_API,
 
@@ -59,7 +60,7 @@ const {
                 throw new Error("Could Not Fetch Course Categories")
             }
 
-            result = response?.data?.data
+            result = response?.data?.Allcategorys
         }catch(error){
             console.log("COURSE_CATEGORIES_API API ERROR............", error)
             toast.error(error.message)
@@ -83,10 +84,35 @@ const {
             }
 
             toast.success("Course Details Added Successfully")
-            result = response?.data?.data
+            result = response?.data?.newCourse
 
         }catch(error){
             console.log("CREATE_COURSE_API API ERROR............", error)
+            toast.error(error.message)
+        }
+        toast.dismiss(toastId)
+        return result
+    }
+
+    export const editCourseDetails = async (data, token) => {
+        let result = null
+        const toastId = toast.loading("Loading...")
+        try{
+            const response = await apiConnector( "POST", EDIT_COURSE_API, data, {
+                "Content-Type" : "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+            });
+            console.log( " EDIT_COURSE_API response.........", response)
+
+            if(!response?.data?.success){
+                throw new Error("Could Not able to update Course Details")
+            }
+
+            toast.success("Course Details Updated Successfully")
+            result = response?.data?.data
+
+        }catch(error){
+            console.log(" EDIT_COURSE_API ERROR............", error)
             toast.error(error.message)
         }
         toast.dismiss(toastId)

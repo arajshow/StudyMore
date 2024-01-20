@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const RequirementField = ({
-  name,
-  label,
-  register,
-  errors,
-  setValue,
-  getValue,
-}) => {
+const RequirementField = ({ name, label, register, errors, setValue }) => {
   const [requirement, setRequirement] = useState("");
   const [requirementList, setRequirementList] = useState([]);
+  const { editCourse, course } = useSelector((state) => state.course);
+
+  useEffect(() => {
+    if (editCourse) {
+      setRequirementList(course?.instructions);
+    }
+
+    register(name, {
+      required: true,
+      validation: (value) => value.length > 0,
+    });
+  }, []);
+
+  useEffect(() => {
+    setValue(name, requirementList);
+  }, [requirementList]);
 
   const handleAddRequirement = () => {
     if (requirement) {
@@ -19,7 +29,7 @@ const RequirementField = ({
   };
 
   const handleRemoveRequirement = (index) => {
-    const updateRequirementList = requirementList;
+    const updateRequirementList = [...requirementList];
     updateRequirementList.splice(index, 1);
     setRequirementList(updateRequirementList);
   };

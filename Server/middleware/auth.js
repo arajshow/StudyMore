@@ -14,13 +14,14 @@ exports.auth = async (req, res, next) => {
         if(!token || token==undefined){
             return res.status(401).json({
                 success:false,
-                message:"token is missing"
+                message:`token is missing`
+                
             })
         }
         
         try{
             const payload = jwt.verify(token, process.env.JWT_SECRET);
-            // console.log("payload", payload);
+            console.log("payload", payload);
             req.user = payload;
 
         }

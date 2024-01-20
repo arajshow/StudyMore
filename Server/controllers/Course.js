@@ -12,10 +12,12 @@ exports.createCourse = async (req, res) => {
         
 
         // get thumbnail
-        const thumbnail = req.files.thumbnailImage;
+        // const thumbnail = req.files.thumbnailImage;
 
         // validation
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail){
+        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category 
+            // || !thumbnail
+            ){
             return res.status(404).json({
                 success:false,
                 message: "All fields are required",
@@ -54,7 +56,7 @@ exports.createCourse = async (req, res) => {
         }
 
         // upload image to cloudinary
-        const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
+        // const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
 
         // create DB
         const newCourse = await Course.create({
@@ -63,7 +65,7 @@ exports.createCourse = async (req, res) => {
             instructor: instructorDetails._id,
             whatYouWillLearn:whatYouWillLearn,
             price:price,
-            thumbnail:thumbnailImage.secure_url,
+            // thumbnail:thumbnailImage.secure_url,
             category:categoryDetails._id,
 
         });
@@ -107,7 +109,76 @@ exports.createCourse = async (req, res) => {
     }
 }
 
+exports.editCourse = async (req, res) => {
+    try{
 
+        const { courseId} = req.body
+        const updates = req.body
+        const course = await Course.findById(courseId)
+
+        if (!course) {
+            return res.status(404).json({ error: "Course not found" })
+        }
+
+        if(req.files){
+            console.log("thumbnail update")
+            const thumbnail = req.files.thumbnailImage
+            const thumbnailImage = await uploadImageToCloudinary(
+                thumbnail,
+                process.env.FOLDER_NAME
+            )
+            course.thumbnail = thumbnailImage.secure_url
+        }
+
+        // update only fields that are present in req body
+        for( const key in updates){
+            if(updates.hasOwnProperty(key)){
+                if(key === "tag" || key === "instruction"){
+                    course[key] = JSON.parse(updates[key])
+                }else{
+                    course[key] = updates[key]
+                }
+            }
+        }
+
+        await course.save()
+
+        const updatedCourse = await Course.findOne({
+            _id: courseId,
+        })
+        .populate({
+            path: "instructor",
+            populate: {
+                path: "additionalDetails",
+            },
+        })
+        .populate("category")
+        .populate("ratingAndReviews")
+        .populate({
+            path: "courseContent",
+            populate: {
+            path: "subSection",
+            },
+        })
+        .exec()
+
+
+
+        res.json({
+        success: true,
+        message: "Course updated successfully",
+        data: updatedCourse,
+        })
+        
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    })
+    }
+}
 // get allCourses handler function
 
 exports.getAllCourses = async (req, res) => {

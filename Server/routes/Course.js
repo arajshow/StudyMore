@@ -11,6 +11,7 @@ const {
 
 const {
     createCourse,
+    editCourse,
     getAllCourses,
     getCourseDetails
 } = require("../controllers/Course");
@@ -50,6 +51,7 @@ router.post("/addSubSection", auth, isInstructor, createSubSection);
 
 // i have used put on place of post as it is for update in DB
 router.post("/updateSection", auth, isInstructor, updateSection);
+router.post("/editCourse", auth, isInstructor, editCourse);
 router.post("/updateSubSection", auth, isInstructor, updateSubSection);
 
 // used delete on place of post as delete command

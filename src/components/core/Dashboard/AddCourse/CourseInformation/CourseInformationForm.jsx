@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
+import { MdNavigateNext } from "react-icons/md";
+import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import {
   fetchCourseCategories,
+  editCourseDetails,
   addCourseDetails,
 } from "../../../../../services/operations/courseDetailsAPI";
-import { categories } from "../../../../../services/api";
 import { toast } from "react-hot-toast";
+import { setStep, setCourse } from "../../../../../slices/courseSlice";
 import ChipInput from "./ChipInput";
 import RequirementField from "./RequirementField";
+import { COURSE_STATUS } from "../../../../../utils/constants";
 
 const CourseInformationForm = () => {
   const {
@@ -72,6 +76,7 @@ const CourseInformationForm = () => {
     if (editCourse) {
       if (isFormUpdated()) {
         const currentValues = getValue();
+        // object is created of name FormData which is stored in formData variable
         const formData = new FormData();
 
         formData.append("courseId", course._id);
@@ -148,6 +153,7 @@ const CourseInformationForm = () => {
       console.log(key, value);
     });
 
+    console.log("PRINTING FORMDATAAAA", formData);
     const result = await addCourseDetails(formData, token);
     if (result) {
       //console.log(setCourse(result));
@@ -234,7 +240,11 @@ const CourseInformationForm = () => {
               </option>
             ))}
         </select>
-        {errors.courseCategory && <span>Course Category is Required</span>}
+        {errors.courseCategory && (
+          <span className="ml-2 text-xs tracking-wide text-pink-200">
+            Course Category is Required
+          </span>
+        )}
       </div>
 
       {/* create a custom component for handling tags input */}
@@ -248,14 +258,14 @@ const CourseInformationForm = () => {
       />
 
       {/* create a component for uploading and showing preview of media */}
-      <Upload
+      {/* <Upload
         name="courseImage"
         label="Course Thumbnail"
         register={register}
         setValue={setValue}
         errors={errors}
         editData={editCourse ? course?.thumbnail : null}
-      />
+      /> */}
 
       {/*     Benefits of the Course */}
       <div className="text-richblack-100">
@@ -279,7 +289,6 @@ const CourseInformationForm = () => {
         register={register}
         errors={errors}
         setValue={setValue}
-        getValue={getValue}
       />
 
       {/* submit buttons */}

@@ -31,6 +31,7 @@ export const courseEndpoints = {
     CREATE_SUBSECTION_API : BASE_URL + "/course/addSubSection",
 
     // all update apis of course route
+    EDIT_COURSE_API: BASE_URL + "/course/editCourse",
     UPDATE_SECTION_API : BASE_URL + "/course/updateSection",
     UPDATE_SUBSECTION_API : BASE_URL + "/course/updateSubSection",
 
