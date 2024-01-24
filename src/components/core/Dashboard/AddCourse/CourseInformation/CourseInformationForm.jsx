@@ -13,6 +13,7 @@ import { setStep, setCourse } from "../../../../../slices/courseSlice";
 import ChipInput from "./ChipInput";
 import RequirementField from "./RequirementField";
 import { COURSE_STATUS } from "../../../../../utils/constants";
+import Upload from "../Upload";
 
 const CourseInformationForm = () => {
   const {
@@ -258,14 +259,14 @@ const CourseInformationForm = () => {
       />
 
       {/* create a component for uploading and showing preview of media */}
-      {/* <Upload
+      <Upload
         name="courseImage"
         label="Course Thumbnail"
         register={register}
         setValue={setValue}
         errors={errors}
         editData={editCourse ? course?.thumbnail : null}
-      /> */}
+      />
 
       {/*     Benefits of the Course */}
       <div className="text-richblack-100">

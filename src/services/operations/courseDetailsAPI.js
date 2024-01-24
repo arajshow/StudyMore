@@ -118,3 +118,53 @@ const {
         toast.dismiss(toastId)
         return result
     }
+
+    export const createSection = async (data, token) => {
+        let result = null;
+        const toastId = toast.loading("Loading...")
+        try{
+            const response = await apiConnector("POST", CREATE_SECTION_API, data, {
+                Authorization: `Bearer ${token}`
+            })
+
+            console.log( " CREATE_SECTION_API response.........", response)
+
+            if(!response?.data?.success){
+                throw new Error("Could Not able to create Section")
+            }
+
+            toast.success("Section created Successfully")
+            result = response?.data?.data
+
+        }catch(error){
+            console.log(" CREATE_SECTION_API ERROR............", error)
+            toast.error(error.message)
+        }
+        toast.dismiss(toastId)
+        return result
+    }
+
+    export const updateSection = async (data, token) => {
+        let result = null;
+        const toastId = toast.loading("Loading...")
+        try{
+            const response = await apiConnector("POST", UPDATE_SECTION_API, data, {
+                Authorization: `Bearer ${token}`
+            })
+
+            console.log( " UPDATE_SECTION_API response.........", response)
+
+            if(!response?.data?.success){
+                throw new Error("Could Not able to update Section")
+            }
+
+            toast.success("Section updated Successfully")
+            result = response?.data?.data
+
+        }catch(error){
+            console.log(" UPDATE_SECTION_API ERROR............", error)
+            toast.error(error.message)
+        }
+        toast.dismiss(toastId)
+        return result
+    }
