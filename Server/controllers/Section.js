@@ -1,5 +1,6 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
+const SubSection = require("../models/SubSection")
 
 exports.createSection = async (req, res) => {
     try{
@@ -41,7 +42,7 @@ exports.createSection = async (req, res) => {
         return res.status(200).json({
             success:true,
             message: "Section Created successfully",
-            updatedCourseDetails,
+            data: updatedCourseDetails,
         });
 
 
@@ -59,7 +60,7 @@ exports.updateSection = async (req, res) => {
     try{
 
         // fetch data
-        const {sectionName, sectionId} = await req.body;
+        const {sectionName, sectionId, courseId} = await req.body;
 
         // validation
         if(!sectionName || !sectionId){
@@ -72,11 +73,21 @@ exports.updateSection = async (req, res) => {
         // update section in DB
         const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new:true});
 
+
+        const course = await Course.findById(courseId)
+		.populate({
+			path:"courseContent",
+			populate:{
+				path:"subSection",
+			},
+		})
+		.exec();
+
         // return response
         return res.status(200).json({
             success:true,
             message: "Section updated successfully",
-            section
+            data: course,
         });
 
 
@@ -114,17 +125,35 @@ exports.deleteSection = async (req, res) => {
         //         }
         //     },
         //     {new: true});
+
+        await Course.findByIdAndUpdate(courseId, {
+			$pull: {
+				courseContent: sectionId,
+			}
+		})
+
+        
+        const section = await Section.findById(sectionId);
+
+        //delete sub section
+		await SubSection.deleteMany({_id: {$in: section.subSection}});
+
         await Section.findByIdAndDelete(sectionId);
 
-
-        // delete section refrence from course
-        
+        //find the updated course and return so that you can update course in frontend
+		const course = await Course.findById(courseId).populate({
+			path:"courseContent",
+			populate: {
+				path: "subSection"
+			}
+		})
+		.exec();
 
         // return response
         return res.status(200).json({
             success:true,
             message: "Section deleted successfully",
-            // course
+            data: course
         });
 
 

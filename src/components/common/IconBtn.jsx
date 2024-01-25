@@ -3,7 +3,7 @@ import React from "react";
 const IconBtn = ({
   text,
   children,
-  onClick,
+  onclick,
   disabled,
   outline = false,
   customClass,
@@ -13,7 +13,7 @@ const IconBtn = ({
   return (
     <button
       disabled={disabled}
-      onClick={onClick}
+      onClick={onclick}
       className={`flex items-center text-richblack-900 ${
         outline ? "border border-yellow-50 bg-transparent" : ""
       } 

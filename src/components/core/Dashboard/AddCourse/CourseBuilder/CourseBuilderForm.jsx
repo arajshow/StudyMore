@@ -60,9 +60,9 @@ export default function CourseBuilderForm() {
       );
     }
     if (result) {
-      // console.log("section result", result)
+      console.log("section result", result);
       dispatch(setCourse(result));
-      //console.log("here it is->",result);
+      console.log("here it is->", result);
       setEditSectionName(null);
       setValue("sectionName", "");
     }
@@ -133,7 +133,10 @@ export default function CourseBuilderForm() {
           >
             <IoAddCircleOutline size={20} className="text-yellow-50" />
           </IconBtn> */}
-          <div className="flex items-center gap-x-1 text-richblack-100">
+          <div
+            type="Submit"
+            className="flex items-center gap-x-1 text-richblack-100 cursor-pointer"
+          >
             <button>
               {editSectionName ? "Edit Section Name" : "Create Section"}
             </button>
