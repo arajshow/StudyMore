@@ -107,8 +107,10 @@ export default function SubSectionModal({
     formData.append("sectionId", modalData);
     formData.append("title", data.lectureTitle);
     formData.append("description", data.lectureDesc);
-    formData.append("video", data.lectureVideo);
+    formData.append("videoFile", data.lectureVideo);
+
     setLoading(true);
+
     const result = await createSubSection(formData, token);
     if (result) {
       // update the structure of course

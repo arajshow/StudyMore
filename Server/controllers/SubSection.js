@@ -10,14 +10,14 @@ exports.createSubSection = async (req, res) => {
 
         // fetch data
         // const {title, timeDuration, description, } = await req.body;
-        const {title, timeDuration, description, sectionId} = await req.body;
+        const {title, description, sectionId} = await req.body;
         // const {sectionId} =  await req.params;
 
         // fetch video
         const videoFile = await req.files.videoFile;
 
         // validation
-        if(!title || !timeDuration || !description || !videoFile || !sectionId){
+        if(!title || !description || !videoFile || !sectionId){
             return res.status(404).json({
                 success:false,
                 message: `describe all properties`,

@@ -133,9 +133,10 @@ exports.deleteSection = async (req, res) => {
 		})
 
         
-        const section = await Section.findById(sectionId);
+        
 
         //delete sub section
+        const section = await Section.findById(sectionId);
 		await SubSection.deleteMany({_id: {$in: section.subSection}});
 
         await Section.findByIdAndDelete(sectionId);
