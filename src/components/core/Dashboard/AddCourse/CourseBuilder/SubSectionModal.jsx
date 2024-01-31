@@ -78,7 +78,7 @@ export default function SubSectionModal({
     setLoading(true);
     const result = await updateSubSection(formData, token);
     if (result) {
-      // console.log("result", result)
+      console.log("result for edit", result);
       // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === modalData.sectionId ? result : section

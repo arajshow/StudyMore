@@ -20,7 +20,7 @@ const CourseInformationForm = () => {
     register,
     handleSubmit,
     setValue,
-    getValue,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -56,7 +56,7 @@ const CourseInformationForm = () => {
   }, []);
 
   const isFormUpdated = () => {
-    const currentValues = getValue();
+    const currentValues = getValues();
     if (
       currentValues.courseTitle !== course.courseName ||
       currentValues.courseShortDesc !== course.courseDescription ||
@@ -76,7 +76,7 @@ const CourseInformationForm = () => {
   const onSubmit = async (data) => {
     if (editCourse) {
       if (isFormUpdated()) {
-        const currentValues = getValue();
+        const currentValues = getValues();
         // object is created of name FormData which is stored in formData variable
         const formData = new FormData();
 
@@ -148,8 +148,8 @@ const CourseInformationForm = () => {
     formData.append("thumbnailImage", data.courseImage);
 
     setLoading(true);
-    console.log("BEFORE add course API call");
-    console.log("PRINTING FORMDATAiii", formData);
+    // console.log("BEFORE add course API call");
+    // console.log("PRINTING FORMDATAiii", formData);
     formData.forEach((value, key) => {
       console.log(key, value);
     });

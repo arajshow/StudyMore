@@ -24,16 +24,20 @@ exports.createSubSection = async (req, res) => {
             })
         }
 
+        // console.log("first ->", videoFile);
+
         // upload video to cloud
         const videoFileDescription = await uploadImageToCloudinary(videoFile, process.env.FOLDER_NAME);
-
+        // console.log("video ->", videoFileDescription);
         // create subsection in db
         const newSubSection = await SubSection.create({
             title,
-            timeDuration,
+            timeDuration: `${videoFileDescription.duration}`,
             description,
             videoUrl: videoFileDescription.secure_url,
         });
+
+        // console.log("list ->", newSubSection);
 
         // update subsection in section
         const updatedSectionDetails = await Section.findByIdAndUpdate(
@@ -73,11 +77,6 @@ exports.updateSubSection = async (req, res) => {
         const {title="", description="", subSectionId, sectionId} = await req.body;
         // const {sectionId} =  await req.params;
 
-        
-
-        // fetch video
-        const videoFile = await req.files.videoFile;
-
         // validation
         if(!subSectionId){
             return res.status(404).json({
@@ -88,10 +87,6 @@ exports.updateSubSection = async (req, res) => {
 
         const subSection = await SubSection.findById(subSectionId)
 
-        // upload video to cloud
-        const videoFileDescription = await uploadImageToCloudinary(videoFile, process.env.FOLDER_NAME);
-        
-
         // update subSection
         if (title !== undefined) {
         subSection.title = title
@@ -101,8 +96,15 @@ exports.updateSubSection = async (req, res) => {
             subSection.description = description
         }
 
-        subSection.videoUrl = videoFileDescription.secure_url;
-        subSection.timeDuration = `${videoFileDescription.duration}`
+        if(req.files && req.files.video !== undefined){
+            const videoFile = await req.files.videoFile;
+            // upload video to cloud
+            const videoFileDescription = await uploadImageToCloudinary(videoFile, process.env.FOLDER_NAME);
+
+            subSection.videoUrl = videoFileDescription.secure_url;
+            subSection.timeDuration = `${videoFileDescription.duration}`
+        }
+
         await subSection.save();
         
         const updatedSection = await Section.findById(sectionId).populate("subSection")
@@ -130,7 +132,7 @@ exports.deleteSubSection = async (req, res) => {
 
         // fetch data
         const {subSectionId, sectionId} = req.body;
-
+        
         // delete subSection from section DB
         await Section.findByIdAndUpdate(
             { _id: sectionId },
@@ -142,9 +144,9 @@ exports.deleteSubSection = async (req, res) => {
         )
 
         // delete data from DB
-        await SubSection.findByIdAndDelete(subSectionId);
+        const subSection = await SubSection.findByIdAndDelete(subSectionId);
 
-        if (!SubSection) {
+        if (!subSection) {
             return res.status(404).json({
                 success: false,
                 message: "SubSection not found" 

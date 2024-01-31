@@ -56,7 +56,7 @@ router.post("/updateSubSection", auth, isInstructor, updateSubSection);
 
 // used delete on place of post as delete command
 router.post("/deleteSection", auth, isInstructor, deleteSection);
-router.delete("deleteSubSection", auth, isInstructor, deleteSubSection);
+router.post("/deleteSubSection", auth, isInstructor, deleteSubSection);
 
 router.get("/getAllCourses", getAllCourses);
 router.post("/getCourseDetails", getCourseDetails);

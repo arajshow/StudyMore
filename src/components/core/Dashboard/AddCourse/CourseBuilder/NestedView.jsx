@@ -28,8 +28,6 @@ const NestedView = ({ handleChangeEditSectionName }) => {
   const [confirmationModal, setConfirmationModal] = useState(null);
 
   const handleDeleteSection = async (sectionId) => {
-    console.log("delete me aa gya");
-
     const result = await deleteSection(
       {
         sectionId,
@@ -46,7 +44,9 @@ const NestedView = ({ handleChangeEditSectionName }) => {
   };
 
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
+    // console.log("delete me aa gya");
     const result = await deleteSubSection({ subSectionId, sectionId }, token);
+    // console.log("result", result);
 
     if (result) {
       // vvi to handle updation of section and course in db
