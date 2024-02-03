@@ -13,7 +13,10 @@ const {
     createCourse,
     editCourse,
     getAllCourses,
-    getCourseDetails
+    getCourseDetails,
+    getFullCourseDetails,
+    getInstructorCourses,
+    deleteCourse
 } = require("../controllers/Course");
 
 const {
@@ -55,11 +58,16 @@ router.post("/editCourse", auth, isInstructor, editCourse);
 router.post("/updateSubSection", auth, isInstructor, updateSubSection);
 
 // used delete on place of post as delete command
+router.delete("/deleteCourse", deleteCourse);
 router.post("/deleteSection", auth, isInstructor, deleteSection);
 router.post("/deleteSubSection", auth, isInstructor, deleteSubSection);
 
 router.get("/getAllCourses", getAllCourses);
+router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 router.post("/getCourseDetails", getCourseDetails);
+router.post("/getFullCourseDetails", auth, getFullCourseDetails)
+
+
 
 
 // ********************************************************************************************************

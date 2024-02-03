@@ -38,9 +38,13 @@ export const courseEndpoints = {
     // all delete apis of course route
     DELETE_SECTION_API : BASE_URL + "/course/deleteSection",
     DELETE_SUBSECTION_API : BASE_URL + "/course/deleteSubSection",
+    DELETE_COURSE_API: BASE_URL + "/course/deleteCourse",
 
     GET_ALL_COURSE_API: BASE_URL + "/course/getAllCourses",
     COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails",
+    GET_ALL_INSTRUCTOR_COURSES_API: BASE_URL + "/course/getInstructorCourses",
+    GET_FULL_COURSE_DETAILS_AUTHENTICATED:
+    BASE_URL + "/course/getFullCourseDetails",
 
     // all categories apis
     COURSE_CATEGORIES_API: BASE_URL + "/course/showAllCategories",
