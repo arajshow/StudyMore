@@ -53,6 +53,31 @@ const {
         return result
     }
 
+    export const fetchCourseDetails = async (courseId) => {
+        const toastId = toast.loading("Loading...")
+        //   dispatch(setLoading(true));
+        let result = null
+        try {
+            const response = await apiConnector("POST", COURSE_DETAILS_API, {
+            courseId,
+            })
+            console.log("COURSE_DETAILS_API API RESPONSE............", response)
+
+            if (!response.data.success) {
+            throw new Error(response.data.message)
+            }
+            result = response.data
+        } catch (error) {
+            console.log("COURSE_DETAILS_API API ERROR............", error)
+            result = error.response.data
+            // toast.error(error.response.data.message);
+        }
+        toast.dismiss(toastId)
+        //   dispatch(setLoading(false));
+        return result
+    }
+
+
     export const fetchCourseCategories = async () => {
         let result = []
         try{
@@ -63,7 +88,7 @@ const {
                 throw new Error("Could Not Fetch Course Categories")
             }
 
-            result = response?.data?.Allcategorys
+            result = response?.data?.data
         }catch(error){
             console.log("COURSE_CATEGORIES_API API ERROR............", error)
             toast.error(error.message)
@@ -94,10 +119,42 @@ const {
         return result
     }
 
+    export const getFullDetailsOfCourse = async (courseId, token) => {
+        const toastId = toast.loading("Loading...")
+        //   dispatch(setLoading(true));
+        let result = null
+        try {
+            const response = await apiConnector(
+            "POST",
+            GET_FULL_COURSE_DETAILS_AUTHENTICATED,
+            {
+                courseId,
+            },
+            {
+                Authorization: `Bearer ${token}`,
+            }
+            )
+            console.log("GET_FULL_COURSE_DETAILS_AUTHENTICATED RESPONSE............", response)
+
+            if (!response.data.success) {
+            throw new Error(response.data.message)
+            }
+            result = response?.data?.data
+        } catch (error) {
+            console.log("GET_FULL_COURSE_DETAILS_AUTHENTICATED ERROR............", error)
+            result = error.response.data
+            // toast.error(error.response.data.message);
+        }
+        toast.dismiss(toastId)
+        //   dispatch(setLoading(false));
+        return result
+    }
+
     export const addCourseDetails = async (data, token) => {
         let result = null
         const toastId = toast.loading("Loading...")
         try{
+            console.log("data beee", data);
             const response = await apiConnector( "POST", CREATE_COURSE_API, data, {
                 "Content-Type" : "multipart/form-data",
                 Authorization: `Bearer ${token}`,

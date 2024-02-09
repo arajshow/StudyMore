@@ -1,6 +1,7 @@
 const Course = require("../models/Course");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
+const CourseProgress = require("../models/CourseProgress");
 const Category = require("../models/Category");
 const User = require("../models/User");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
@@ -15,6 +16,8 @@ exports.createCourse = async (req, res) => {
 
         // get thumbnail
         const thumbnail = req.files.thumbnailImage;
+
+        // console.log("data bhai", courseName, courseDescription, whatYouWillLearn, price, category);
 
         // validation
         if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category 
@@ -63,7 +66,7 @@ exports.createCourse = async (req, res) => {
         // create DB
         const newCourse = await Course.create({
             courseName:courseName,
-            coursedescription:courseDescription,
+            courseDescription:courseDescription,
             instructor: instructorDetails._id,
             whatYouWillLearn:whatYouWillLearn,
             price:price,
@@ -89,7 +92,7 @@ exports.createCourse = async (req, res) => {
             {_id:categoryDetails._id},
             {
                 $push: {
-                    course: newCourse,
+                    courses: newCourse,
                 },
             },
             {new:true},
@@ -248,6 +251,8 @@ exports.getCourseDetails = async (req, res) => {
             })        
         }
 
+        console.log("course bee", courseDetails);
+
         let totalDurationInSeconds = 0;
         courseDetails.courseContent.forEach( (content) => {
             content.subSection.forEach( (subSection) => {
@@ -295,14 +300,14 @@ exports.getFullCourseDetails = async (req, res) => {
                                                     },
                                                 }
                                             )
+                                            .populate("category")
+                                            .populate("ratingAndReviews")
                                             .populate({
                                                 path: "courseContent",
                                                 populate: {
                                                     path: "subSection",
-                                                }
+                                                },
                                             })
-                                            .populate("ratingAndReviews")
-                                            .populate("category")
                                             .exec();
 
         let courseProgressCount = await CourseProgress.findOne({
@@ -320,6 +325,7 @@ exports.getFullCourseDetails = async (req, res) => {
         }
 
         let totalDurationInSeconds = 0;
+        console.log("courseDetails.courseContent : ", courseDetails)
         courseDetails.courseContent.forEach( (content) => {
             content.subSection.forEach( (subSection) => {
                 const timeDurationInSeconds = parseInt( subSection.timeDuration)

@@ -21,6 +21,8 @@ import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse";
 import { useSelector } from "react-redux";
 import MyCourses from "./components/core/Dashboard/MyCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse";
+import Catalog from "./pages/Catlog";
 
 
 const App = () => {
@@ -72,6 +74,9 @@ const App = () => {
             <Contact/>
           } />
 
+          <Route path="/catalog/:catalogName" element= { <Catalog /> } />
+          {/* <Route path="courses/:courseId" */}
+
           <Route element={
             <PrivateRoute>
               <Dashboard />
@@ -97,12 +102,13 @@ const App = () => {
                 <>
                   <Route path="/dashboard/add-course" element={<AddCourse />} />
                   <Route path="/dashboard/my-courses" element={<MyCourses />} />
+                  <Route path="/dashboard/edit-course/:courseId" element={<EditCourse />} />
                 </>
               )
             }
           </Route>
 
-           <Route path="*" element={<Error />} />
+          <Route path="*" element={<Error />} />
 
         </Routes>
         
