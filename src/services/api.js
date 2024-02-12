@@ -19,8 +19,8 @@ export const profileEndpoints = {
 // TODO :  here path name is missmatching
 export const studentEndpoints = {
     COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
-    COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment", //have to be verifySignature
-    SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail", //not present
+    COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment", 
+    SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail", 
   }
 
 export const courseEndpoints = {

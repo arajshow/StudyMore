@@ -4,6 +4,7 @@ const SubSection = require("../models/SubSection");
 const CourseProgress = require("../models/CourseProgress");
 const Category = require("../models/Category");
 const User = require("../models/User");
+const { convertSecondsToDuration } = require("../utils/secToDuration.js")
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
 
 
@@ -223,7 +224,7 @@ exports.getCourseDetails = async (req, res) => {
         // fetch id
         const {courseId} = await req.body;
 
-        const courseDetails = await Course.find(
+        const courseDetails = await Course.findOne(
                                                 {_id:courseId},
                                             ).populate(
                                                 {

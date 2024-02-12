@@ -33,7 +33,7 @@ const Navbar = () => {
 
       try {
         const res = await apiConnector("GET", categories.CATAGORIES_API);
-        // console.log("cat data ", res.data);
+        console.log("catagories data ", res.data.data);
         setSubLinks(res?.data.data);
       } catch (error) {
         console.log("Could not fetch Categories. ", error);

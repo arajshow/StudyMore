@@ -13,7 +13,7 @@ const cartSlice = createSlice({
     reducers: {
 
         addToCart: (state, action) => {
-            const course = action.payloadconst
+            const course = action.payload
             const index = state.cart.findIndex( (item) => item._id === course._id)
 
             if(index>=0){
@@ -38,14 +38,14 @@ const cartSlice = createSlice({
 
         removeFromCart: (state, action) => {
 
-            const courseId = action.payloadconst
-            const index = state.cart.findindex( (item) => item._id === courseId)
+            const courseId = action.payload
+            const index = state.cart.findIndex( (item) => item._id === courseId)
 
             if(index>=0){
                 // it exist in cart so we can remove it
 
                 state.totalItems--;
-                state.total -= state.cat[index].price
+                state.total -= state.cart[index].price
 
                 state.cart.splice(index, 1)                
             }else{

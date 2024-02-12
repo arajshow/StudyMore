@@ -54,6 +54,7 @@ const {
     }
 
     export const fetchCourseDetails = async (courseId) => {
+        console.log("ayyya mai")
         const toastId = toast.loading("Loading...")
         //   dispatch(setLoading(true));
         let result = null
@@ -66,7 +67,7 @@ const {
             if (!response.data.success) {
             throw new Error(response.data.message)
             }
-            result = response.data
+            result = response?.data;
         } catch (error) {
             console.log("COURSE_DETAILS_API API ERROR............", error)
             result = error.response.data
