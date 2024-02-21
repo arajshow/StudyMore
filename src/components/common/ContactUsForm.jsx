@@ -90,7 +90,7 @@ const ContactUsForm = () => {
           </p>
 
           <select
-            class="w-[75px] mr-[6px] bg-richblack-800 rounded-[0.5rem] text-richblack-5 p-[12px] shadow-[0_1px_0px_0px_#525252] "
+            className="w-[75px] mr-[6px] bg-richblack-800 rounded-[0.5rem] text-richblack-5 p-[12px] shadow-[0_1px_0px_0px_#525252] "
             name="countryCode"
             {...register("countrycode", { required: true })}
           >

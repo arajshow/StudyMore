@@ -145,6 +145,7 @@ const {
             result = response?.data?.data
         } catch (error) {
             console.log("GET_FULL_COURSE_DETAILS_AUTHENTICATED ERROR............", error)
+            toast.error(error.response?.data?.message);
             result = error.response.data
             // toast.error(error.response.data.message);
         }
@@ -417,7 +418,7 @@ const {
         } catch (error) {
             success = false
             console.log("CREATE RATING API ERROR............", error)
-            toast.error(error.message)
+            toast.error(error.response?.data?.message)
         }
         toast.dismiss(toastId)
         return success

@@ -44,7 +44,8 @@ const {
 } = require("../controllers/RatingAndReview");
 
 const {
-    updateCourseProgress
+    updateCourseProgress,
+    getProgressPercentage
 } = require("../controllers/courseProgress");
 
 
@@ -72,6 +73,7 @@ router.post("/getCourseDetails", getCourseDetails);
 router.post("/getFullCourseDetails", auth, getFullCourseDetails)
 
 router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
+router.post("/getProgressPercentage", auth, isStudent, getProgressPercentage);
 
 
 // ********************************************************************************************************

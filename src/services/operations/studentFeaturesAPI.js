@@ -42,6 +42,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                                 })
 
         if(!orderResponse.data.success) {
+             toast.error(orderResponse.data.message);
             throw new Error(orderResponse.data.message);
         }
         console.log("PRINTING orderResponse", orderResponse);
@@ -70,13 +71,13 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         paymentObject.open();
         paymentObject.on("payment.failed", function(response) {
             toast.error("oops, payment failed");
-            console.log(response.error);
+            console.log(response);
         })
 
     }
     catch(error) {
         console.log("PAYMENT API ERROR.....", error);
-        toast.error("Could not make Payment");
+        toast.error(error.response?.data?.message || "Failed Payment");
     }
     toast.dismiss(toastId);
 }

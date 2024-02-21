@@ -32,7 +32,7 @@ const CourseDetails = () => {
   const [totalTime, setTotalTime] = useState("");
 
   // Total number of lectures
-  const [totalNoOfLectures, setTotalNoOfLectures] = useState(0);
+  const [totalLectures, settotalLectures] = useState(0);
 
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(0);
@@ -59,7 +59,7 @@ const CourseDetails = () => {
     response?.courseContent?.forEach((sec) => {
       lectures += sec.subSection.length || 0;
     });
-    setTotalNoOfLectures(lectures);
+    settotalLectures(lectures);
   }, [response]);
 
   const [isActive, setIsActive] = useState(Array(0));
@@ -102,7 +102,7 @@ const CourseDetails = () => {
     "responses rating lecturNo: ",
     response,
     avgReviewCount,
-    totalNoOfLectures
+    totalLectures
   );
 
   const handleBuyCourse = () => {
@@ -204,7 +204,7 @@ const CourseDetails = () => {
                     {courseContent.length} {`section(s)`}
                   </span>
                   <span>
-                    {totalNoOfLectures} {`lecture(s)`}
+                    {totalLectures} {`lecture(s)`}
                   </span>
                   <span>{totalTime} total length</span>
                 </div>

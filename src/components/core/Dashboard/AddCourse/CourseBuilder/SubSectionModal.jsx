@@ -195,7 +195,7 @@ export default function SubSectionModal({
                 disabled={loading}
                 text={loading ? "Loading.." : edit ? "Save Changes" : "Save"}
               /> */}
-              <button>
+              <button disabled={view || loading}>
                 {loading ? "Loading.." : edit ? "Save Changes" : "Save"}
               </button>
             </div>

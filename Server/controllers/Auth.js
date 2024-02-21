@@ -198,7 +198,7 @@ exports.logIn = async (req, res) => {
         if(!email || !password){
             return res.status(403).json({
                 success: false,
-                message:"All details are required, please try again",
+                message:"Fill all details",
             })            
         }
 
@@ -207,7 +207,7 @@ exports.logIn = async (req, res) => {
         if(!user){
             return res.status(401).json({
                 success: false,
-                message:"User does not registered, go sign up",
+                message:"Email address isn't Connected, Signup Please",
             })              
         }
 
@@ -217,7 +217,7 @@ exports.logIn = async (req, res) => {
               // Handle error
                 return res.status(400).json({
                     success: false,
-                    message:`password compare error:- ${err}`,
+                    message:`Incorrect Password`,
                 }) 
 
             } else if (result === true) {
@@ -252,7 +252,7 @@ exports.logIn = async (req, res) => {
                     success:true,
                     token,
                     user,
-                    message: "User Logged in Successfully",
+                    message: "Logged In",
                 });
 
 
@@ -261,7 +261,7 @@ exports.logIn = async (req, res) => {
 
                 return res.status(403).json({
                     success:false,
-                    message:"password is wrong"
+                    message:"Incorrect Password"
                 }); 
             }
           });
@@ -272,7 +272,7 @@ exports.logIn = async (req, res) => {
         console.log("login error", error)
         return res.status(400).json({
             success: false,
-            message:`Login failure, please try again, reason:- ${error}`,
+            message:`Login failed`,
         }) 
 
     }

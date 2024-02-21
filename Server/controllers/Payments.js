@@ -3,6 +3,7 @@ const Course = require("../models/Course");
 const mailSender = require("../utils/mailSender");
 const {instance} = require("../config/razorpay");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
+const CourseProgress = require("../models/CourseProgress");
 const { default: mongoose } = require("mongoose");
 
 
@@ -20,6 +21,8 @@ exports.capturePayment = async( req, res) => {
     }
 
     let totalAmount = 0;
+
+
 
     for( const course_id of courses){
         let course;
@@ -47,6 +50,10 @@ exports.capturePayment = async( req, res) => {
             return res.status(500).json({success:false, message:error.message});
         }
     }
+
+    // for testing purpose only
+    // await enrollStudents(courses, userId, res);
+
     const currency = "INR";
     const options = {
         amount : totalAmount*100,
@@ -97,6 +104,54 @@ exports.verifyPayment = async(req, res) => {
             return res.status(200).json({success:true, message:"Payment Verified"});
         }
         return res.status(200).json({success:"false", message:"Payment Failed"});
+
+}
+
+const enrollStudents = async(courses, userId, res) => {
+
+    if(!courses || !userId) {
+        return res.status(400).json({success:false,message:"Please Provide data for Courses or UserId"});
+    }
+
+    for(const courseId of courses) {
+        try{
+            //find the course and enroll the student in it
+        const enrolledCourse = await Course.findOneAndUpdate(
+            {_id:courseId},
+            {$push:{studentsEnrolled:userId}},
+            {new:true},
+        )
+
+        if(!enrolledCourse) {
+            return res.status(500).json({success:false,message:"Course not Found"});
+        }
+
+        const courseProgress = await CourseProgress.create({
+            courseID:courseId,
+            userId:userId,
+            completedVideos: [],
+        })
+
+        //find the student and add the course to their list of enrolledCOurses
+        const enrolledStudent = await User.findByIdAndUpdate(userId,
+            {$push:{
+                courses: courseId,
+                courseProgress: courseProgress._id,
+            }},{new:true})
+            
+        ///bachhe ko mail send kardo
+        const emailResponse = await mailSender(
+            enrollStudents.email,
+            `Successfully Enrolled into ${enrolledCourse.courseName}`,
+            courseEnrollmentEmail(enrolledCourse.courseName, `${enrolledStudent.firstName}`)
+        )    
+        //console.log("Email Sent Successfully", emailResponse.response);
+        }
+        catch(error) {
+            console.log(error);
+            return res.status(500).json({success:false, message:error.message});
+        }
+    }
 
 }
 

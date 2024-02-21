@@ -14,7 +14,7 @@ exports.auth = async (req, res, next) => {
         if(!token || token==undefined){
             return res.status(401).json({
                 success:false,
-                message:`token is missing`
+                message:`Login Again`
                 
             })
         }
@@ -52,7 +52,7 @@ exports.isStudent = async (req, res, next) => {
         if(req.user.accountType !== "Student"){
             return res.status(401).json({
                 success:false,
-                message:"go to your domain, you don't exist here"
+                message:"Only for Students"
             })
         }
 
@@ -73,7 +73,7 @@ exports.isInstructor = async (req, res, next) => {
         if(payload.accountType !== "Instructor"){
             return res.status(500).json({
                 success:false,
-                message:"go to your domain, you don't exist here"
+                message:"Only for Instructor"
             })
         }
 
@@ -94,7 +94,7 @@ exports.isAdmin = async (req, res, next) => {
         if(payload.accountType !== "Admin"){
             return res.status(500).json({
                 success:false,
-                message:"go to your domain, you don't exist here"
+                message:"Admin Zone"
             })
         }
 

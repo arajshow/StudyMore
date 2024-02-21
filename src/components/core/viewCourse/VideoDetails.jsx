@@ -61,7 +61,7 @@ const VideoDetails = () => {
     // } else {
     //   return false;
     // }
-    if (courseSectionData[0].subSection[0]._id === sectionId) {
+    if (courseSectionData[0].subSection[0]._id === subSectionId) {
       return true;
     } else return false;
   };
@@ -103,29 +103,25 @@ const VideoDetails = () => {
 
   // check if the lecture is the last video of the course
   const isLastVideo = () => {
-    // const currentSectionIndx = courseSectionData.findIndex(
-    //   (data) => data._id === sectionId
-    // );
+    const currentSectionIndx = courseSectionData.findIndex(
+      (data) => data._id === sectionId
+    );
 
-    // const noOfSubsections =
-    //   courseSectionData[currentSectionIndx].subSection.length;
+    const noOfSubsections =
+      courseSectionData[currentSectionIndx].subSection.length;
 
-    // const currentSubSectionIndx = courseSectionData[
-    //   currentSectionIndx
-    // ].subSection.findIndex((data) => data._id === subSectionId);
+    const currentSubSectionIndx = courseSectionData[
+      currentSectionIndx
+    ].subSection.findIndex((data) => data._id === subSectionId);
 
-    // if (
-    //   currentSectionIndx === courseSectionData.length - 1 &&
-    //   currentSubSectionIndx === noOfSubsections - 1
-    // ) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-
-    if (courseSectionData[-1].subSection[-1]._id === sectionId) {
+    if (
+      currentSectionIndx === courseSectionData.length - 1 &&
+      currentSubSectionIndx === noOfSubsections - 1
+    ) {
       return true;
-    } else return false;
+    } else {
+      return false;
+    }
   };
 
   // go to the previous video
