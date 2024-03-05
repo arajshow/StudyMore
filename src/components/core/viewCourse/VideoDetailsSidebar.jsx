@@ -20,7 +20,7 @@ const VideoDetailsSidebar = ({ setReviewModal }) => {
 		completedLectures,
 	} = useSelector((state) => state.viewCourse);
 
-	console.log("data", completedLectures);
+	// console.log("data", completedLectures);
 
 	useEffect(() => {
 		(async () => {

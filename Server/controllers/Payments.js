@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Course = require("../models/Course");
+const crypto = require('crypto');
 const mailSender = require("../utils/mailSender");
 const {instance} = require("../config/razorpay");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
@@ -133,19 +134,20 @@ const enrollStudents = async(courses, userId, res) => {
         })
 
         //find the student and add the course to their list of enrolledCOurses
-        const enrolledStudent = await User.findByIdAndUpdate(userId,
+        const enrolledStudent = await User.findOneAndUpdate(
+            {_id: userId},
             {$push:{
                 courses: courseId,
                 courseProgress: courseProgress._id,
             }},{new:true})
             
         ///bachhe ko mail send kardo
-        const emailResponse = await mailSender(
-            enrollStudents.email,
-            `Successfully Enrolled into ${enrolledCourse.courseName}`,
-            courseEnrollmentEmail(enrolledCourse.courseName, `${enrolledStudent.firstName}`)
-        )    
-        //console.log("Email Sent Successfully", emailResponse.response);
+        // const emailResponse = await mailSender(
+        //     enrollStudents.email,
+        //     `Successfully Enrolled into ${enrolledCourse.courseName}`,
+        //     courseEnrollmentEmail(enrolledCourse.courseName, `${enrolledStudent.firstName}`)
+        // )    
+        // console.log("Email Sent Successfully", emailResponse.response);
         }
         catch(error) {
             console.log(error);

@@ -202,8 +202,11 @@ exports.logIn = async (req, res) => {
             })            
         }
 
+        console.log("email, pass", typeof(email), password);
+
         // user check exist or not
         const user = await User.findOne({email}).populate("additionalDetails").exec();
+        console.log("user", user);
         if(!user){
             return res.status(401).json({
                 success: false,
@@ -211,7 +214,6 @@ exports.logIn = async (req, res) => {
             })              
         }
 
-        console.log("user", user);
         bcrypt.compare(password, user.password, (err, result) => {
             if (err) {
               // Handle error

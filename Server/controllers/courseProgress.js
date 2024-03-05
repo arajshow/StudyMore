@@ -40,7 +40,7 @@ exports.updateCourseProgress = async (req, res) => {
     // Save the updated course progress
     await courseProgress.save()
 
-    return res.status(200).json({ message: "Course progress updated" })
+    return res.status(200).json({ message: "Course progress updated", data: courseProgress })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: "Internal server error" })
@@ -83,12 +83,17 @@ exports.getProgressPercentage = async (req, res) => {
     let progressPercentage =
       (courseProgress.completedVideos.length / lectures) * 100
 
+    let completedLectures = courseProgress.completedVideos;
+
     // To make it up to 2 decimal point
-    const multiplier = Math.pow(10, 2)
-    progressPercentage =
-      Math.round(progressPercentage * multiplier) / multiplier
+    const multiplier = Math.pow(10, 2);
+    progressPercentage = Math.round(progressPercentage * multiplier) / multiplier
 
     return res.status(200).json({
+      // data: {
+      //   progressPercentage,
+      //   progressPercentage,
+      // },
       data: progressPercentage,
       message: "Succesfully fetched Course progress",
     })

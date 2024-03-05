@@ -46,6 +46,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             throw new Error(orderResponse.data.message);
         }
         console.log("PRINTING orderResponse", orderResponse);
+        console.log("PRINTING orderResponse", process.env.RAZORPAY_KEY);
         //options
         const options = {
             key: process.env.RAZORPAY_KEY,
@@ -61,7 +62,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             },
             handler: function(response) {
                 //send successful wala mail
-                sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
+                sendPaymentSuccessEmail(response, orderResponse.data.data.amount, token );
                 //verifyPayment
                 verifyPayment({...response, courses}, token, navigate, dispatch);
             }
